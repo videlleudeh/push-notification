@@ -20,14 +20,13 @@ class _PushNotificationState extends State<PushNotification> {
 
   void _initializeFCM() async {
     try {
-      String? token = await _firebaseMessaging.getToken();
+      String? _token = await _firebaseMessaging.getToken();
       setState(() {
-        token = token;
+        token = _token;
       });
       print('FCM Token: $token');
 
       FirebaseMessaging.onMessage.listen((message) {
-        print("Foreground message: ${message.notification?.body}");
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text("New notification: ${message.notification?.title}"),
@@ -48,24 +47,6 @@ class _PushNotificationState extends State<PushNotification> {
     } catch (e) {
       print('FCM Setup Error: $e');
     }
-    String? token = await _firebaseMessaging.getToken();
-    setState(() {
-      token = token;
-    });
-    print('FCM Token: $token');
-
-    FirebaseMessaging.onMessage.listen((message) {
-      print("Foreground message: ${message.notification?.body}");
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text("New notification: ${message.notification?.title}"),
-        ),
-      );
-    });
-
-    FirebaseMessaging.onMessageOpenedApp.listen((message) {
-      print("Notification opened: ${message.notification?.title}");
-    });
   }
 
   @override
@@ -73,7 +54,30 @@ class _PushNotificationState extends State<PushNotification> {
     return Scaffold(
       appBar: AppBar(title: Text("FCM App")),
       body: Center(
-        child: Text("This is to get push notifications from corePHP POST api"),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'Copy this token and use in your PHP:',
+                style: TextStyle(fontSize: 24),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 10),
+              SelectableText(
+                token ?? 'Loading...',
+                style: TextStyle(color: Colors.blue),
+              ),
+              SizedBox(height: 30),
+              Text(
+                'Notifications will show automatically in notification bar!',
+                style: TextStyle(fontSize: 20),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
