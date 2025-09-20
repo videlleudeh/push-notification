@@ -1,0 +1,5 @@
+# Ignore vendor dependencies
+/vendor/
+
+# Ignore Firebase keys
+fcm-app-key.json
