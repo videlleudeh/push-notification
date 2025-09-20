@@ -2,4 +2,4 @@
 /vendor/
 
 # Ignore Firebase keys
-fcm-app-key.json
+# fcm-app-key.json

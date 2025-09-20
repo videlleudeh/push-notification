@@ -59,7 +59,7 @@ function sendMessage($accessToken, $projectID, $message) {
 try {
    $accessToken = getAccessToken($serviceAccountKey);
    $response = sendMessage($accessToken, $projectID, $message);
-   echo 'Notification sent successfully! ';
+   echo 'Response: ' . json_encode($response);
 } catch (Exception $e) {
    echo 'Error: ' . $e->getMessage();
 }

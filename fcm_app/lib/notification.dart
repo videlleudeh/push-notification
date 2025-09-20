@@ -16,6 +16,17 @@ class _PushNotificationState extends State<PushNotification> {
   void initState() {
     super.initState();
     _initializeFCM();
+    _requestPermission();
+  }
+
+  Future<void> _requestPermission() async {
+    NotificationSettings settings = await _firebaseMessaging.requestPermission(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
+
+    print("Permission status: ${settings.authorizationStatus}");
   }
 
   void _initializeFCM() async {
@@ -36,13 +47,6 @@ class _PushNotificationState extends State<PushNotification> {
 
       FirebaseMessaging.onMessageOpenedApp.listen((message) {
         print("Notification opened: ${message.notification?.title}");
-      });
-
-      FirebaseMessaging.instance.onTokenRefresh.listen((newToken) {
-        print('Token refreshed: $newToken');
-        setState(() {
-          token = newToken;
-        });
       });
     } catch (e) {
       print('FCM Setup Error: $e');
